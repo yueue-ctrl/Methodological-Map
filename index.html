@@ -2,240 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f4ef">
-  <meta name="description" content="A living methodology map: HOW → MAKE → PLAY → CHANGE → AGAIN.">
-  <title>HOW / AGAIN — A Method City</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f5f4ef'/%3E%3Cpath d='M5 9h12v7h10v9H12v-6H5zM8 5v22M24 6v21' fill='none' stroke='%23131313' stroke-width='2'/%3E%3Ccircle cx='8' cy='9' r='2' fill='%23ef5b3f'/%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#e9e4d8">
+  <meta name="description" content="An inhabited, unfinished architectural section for HOW → MAKE → PLAY → CHANGE → AGAIN.">
+  <title>HOW / AGAIN — Open Structure</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e9e4d8'/%3E%3Cpath d='M4 27V6m0 5h22M9 27V11m9 16V11m8 16V5M4 18h22M4 27h22M4 11l5 7-5 9m14-16 8 7-8 9' fill='none' stroke='%231a1917' stroke-width='1.4'/%3E%3C/svg%3E">
   <style>
-    :root { --paper:#f5f4ef; --ink:#121212; --muted:#696963; --accent:#ed5a3d; --line:1.25px; }
-    * { box-sizing:border-box; }
-    html, body { margin:0; min-height:100%; background:var(--paper); color:var(--ink); }
-    body { font-family:"Helvetica Neue", Helvetica, Arial, sans-serif; overflow:hidden; }
-    button { font:inherit; color:inherit; }
-    .shell { height:100dvh; display:grid; grid-template-rows:auto minmax(0,1fr) auto; padding:clamp(12px,2vw,28px); gap:10px; }
-    header { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; border-top:var(--line) solid; padding-top:8px; }
-    .title { margin:0; font-size:clamp(1rem,1.8vw,1.55rem); line-height:1; letter-spacing:-.04em; font-weight:750; }
-    .title .slash { color:var(--accent); }
-    .route-label { margin:.35rem 0 0; font:600 clamp(.68rem,.85vw,.78rem)/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; }
-    .top-meta { display:flex; align-items:center; gap:12px; font:600 .7rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; letter-spacing:.08em; }
-    .live { display:inline-flex; gap:6px; align-items:center; }
-    .live::before { content:""; width:7px; height:7px; border:1px solid; border-radius:50%; background:var(--accent); }
-    #pause { appearance:none; border:1px solid var(--ink); background:transparent; padding:6px 9px; cursor:pointer; text-transform:uppercase; }
-    #pause:hover, #pause:focus-visible { background:var(--ink); color:var(--paper); outline:none; }
-    main { min-height:0; position:relative; width:min(100%,calc((100dvh - 145px) * 1.723)); aspect-ratio:1120/650; align-self:center; justify-self:center; border:var(--line) solid var(--ink); background-image:linear-gradient(to right,rgba(18,18,18,.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(18,18,18,.035) 1px,transparent 1px); background-size:24px 24px; overflow:hidden; }
-    svg { width:100%; height:100%; display:block; }
-    .route { fill:none; stroke:var(--ink); stroke-width:1.25; stroke-dasharray:5 6; vector-effect:non-scaling-stroke; }
-    .route.secondary { opacity:.35; stroke-dasharray:2 7; }
-    .structure, .detail { fill:none; stroke:var(--ink); vector-effect:non-scaling-stroke; }
-    .structure { stroke-width:1.4; }
-    .detail { stroke-width:.85; }
-    .accent-stroke { stroke:var(--accent); }
-    .zone { cursor:pointer; }
-    .zone .plate { fill:var(--paper); stroke:var(--ink); stroke-width:1.4; vector-effect:non-scaling-stroke; transition:fill .18s; }
-    .zone:hover .plate, .zone:focus .plate, .zone.active .plate { fill:#fff; }
-    .zone:focus { outline:none; }
-    .zone:focus .plate { stroke:var(--accent); stroke-width:2.5; }
-    .zone-title { font-size:19px; font-weight:800; letter-spacing:-.04em; }
-    .zone-index, .micro { font:600 7.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.08em; }
-    .micro { font-weight:500; }
-    .zone-note { font:500 9px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace; }
-    .module rect { fill:var(--paper); stroke:var(--ink); stroke-width:1; vector-effect:non-scaling-stroke; }
-    .module text { font:600 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace; }
-    .module { transition:transform .65s cubic-bezier(.22,.7,.25,1), opacity .25s; }
-    .npc .head { fill:var(--paper); stroke:var(--ink); stroke-width:1.2; vector-effect:non-scaling-stroke; }
-    .npc .body { fill:none; stroke:var(--ink); stroke-width:1.4; stroke-linecap:round; vector-effect:non-scaling-stroke; }
-    .npc .tag { font:700 6px/1 ui-monospace,SFMono-Regular,Menlo,monospace; fill:var(--accent); }
-    .event-ring { fill:none; stroke:var(--accent); stroke-width:1.25; vector-effect:non-scaling-stroke; opacity:0; }
-    .event-ring.fire { animation:ring 1s ease-out; }
-    @keyframes ring { 0%{opacity:1;r:4} 100%{opacity:0;r:24} }
-    #tooltip { position:absolute; max-width:230px; pointer-events:none; background:var(--ink); color:var(--paper); padding:9px 11px; font:500 .72rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; opacity:0; transform:translateY(5px); transition:.15s; z-index:4; }
-    #tooltip.show { opacity:1; transform:none; }
-    .event-log { position:absolute; right:12px; top:12px; width:min(210px,24vw); border:1px solid var(--ink); background:rgba(245,244,239,.94); padding:9px; }
-    .event-log h2 { margin:0 0 7px; font:700 .65rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.09em; }
-    #events { margin:0; padding:0; list-style:none; display:grid; gap:4px; font:500 .62rem/1.25 ui-monospace,SFMono-Regular,Menlo,monospace; }
-    #events li { display:grid; grid-template-columns:36px 1fr; gap:6px; }
-    #events time { color:var(--accent); }
-    footer { display:grid; grid-template-columns:1fr auto; gap:14px; align-items:end; border-bottom:var(--line) solid; padding-bottom:8px; }
-    .instruction { margin:0; max-width:68ch; font-size:clamp(.72rem,.9vw,.82rem); line-height:1.35; }
-    .counter { font:600 .68rem/1.25 ui-monospace,SFMono-Regular,Menlo,monospace; text-align:right; }
-    #count { color:var(--accent); }
-    @media (max-width:720px) {
-      body { overflow:auto; }
-      .shell { min-height:100dvh; height:auto; grid-template-rows:auto auto auto; padding:10px; }
-      main { min-height:72vh; width:100%; aspect-ratio:auto; }
-      svg { min-width:880px; }
-      main { overflow:auto hidden; }
-      .event-log { position:sticky; left:8px; width:180px; }
-      footer { grid-template-columns:1fr; }
-      .counter { text-align:left; }
-      .top-meta > span:first-child { display:none; }
-    }
-    @media (prefers-reduced-motion:reduce) { .event-ring.fire { animation:none; } .module { transition:none; } }
+    :root{--paper:#e9e4d8;--ink:#191817;--red:#a54435;--blue:#384d57}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink)}
+    body{font-family:"Courier New",Courier,monospace;background-image:radial-gradient(rgba(31,27,22,.08) .6px,transparent .8px),linear-gradient(97deg,transparent 0 48%,rgba(80,67,48,.025) 50%,transparent 52%);background-size:5px 5px,47px 100%}
+    .sheet{min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:clamp(10px,1.6vw,24px)}
+    header{height:54px;display:flex;justify-content:space-between;align-items:flex-start;border-top:2px solid var(--ink);padding-top:6px;position:relative}
+    header:after{content:"";position:absolute;left:0;right:13%;top:3px;border-top:1px solid rgba(25,24,23,.45);transform:rotate(-.08deg)}
+    h1{font:700 clamp(1rem,1.8vw,1.45rem)/1 Arial,sans-serif;letter-spacing:-.045em;margin:0}.slash{color:var(--red)}
+    .sub{font-size:.62rem;letter-spacing:.12em;margin-top:4px;transform:rotate(-.2deg)}
+    .controls{display:flex;gap:16px;align-items:center;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase}
+    #pause{border:0;border-bottom:1px solid;background:transparent;padding:1px 2px;cursor:pointer;font:inherit;text-transform:uppercase}#pause:hover,#pause:focus-visible{color:var(--red);outline:none}
+    .viewport{min-height:0;overflow:hidden;position:relative}
+    #section{width:100%;height:100%;display:block;min-height:540px}
+    .ink{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+    .heavy{stroke-width:2.1}.medium{stroke-width:1.15}.fine{stroke-width:.68}.ghost{stroke-width:.6;opacity:.42}.red{stroke:var(--red)}.blue{stroke:var(--blue)}
+    .rough{filter:url(#rough)}.dash{stroke-dasharray:6 5}.scratch{stroke-dasharray:1 4}.fill-paper{fill:var(--paper);stroke:var(--ink)}
+    .zone-name{font:700 27px/1 Arial,sans-serif;letter-spacing:-.05em;fill:var(--ink)}
+    .zone-sub{font:700 9px/1 "Courier New",monospace;letter-spacing:.12em;fill:var(--ink)}
+    .note{font:500 8px/1 "Courier New",monospace;letter-spacing:.06em;fill:var(--ink)}
+    .pencil{font:italic 10px/1.2 "Bradley Hand","Segoe Print",cursive;fill:var(--blue);opacity:.9}
+    .hotspot{fill:transparent;stroke:none;cursor:pointer}.hotspot:focus{outline:none;stroke:var(--red);stroke-width:2;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+    .npc{cursor:help}.npc .person{fill:var(--ink);stroke:var(--ink);stroke-width:1.1;stroke-linecap:round;vector-effect:non-scaling-stroke}.npc:hover .person,.npc:focus .person{fill:var(--red);stroke:var(--red)}.npc:focus{outline:none}
+    .trace{fill:none;stroke:var(--red);stroke-width:1;stroke-linecap:round;opacity:.7;vector-effect:non-scaling-stroke}.trace.new{animation:appear .8s ease-out}@keyframes appear{from{opacity:0;stroke-dashoffset:30}to{opacity:.7;stroke-dashoffset:0}}
+    .loose-part{transition:transform .8s cubic-bezier(.2,.8,.25,1)}
+    #tooltip{position:absolute;z-index:4;max-width:245px;padding:9px 11px;background:rgba(28,26,23,.94);color:#f5f1e7;font:500 .68rem/1.4 "Courier New",monospace;pointer-events:none;opacity:0;transform:translate(8px,6px) rotate(-.4deg);transition:opacity .14s}#tooltip.show{opacity:1}
+    footer{min-height:38px;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--ink);padding-bottom:5px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase}footer span:last-child{color:var(--red)}
+    @media(max-width:760px){.sheet{padding:9px}.viewport{overflow:auto hidden}.viewport:after{content:"drag through the section →";position:sticky;left:12px;bottom:8px;display:inline-block;background:var(--paper);padding:4px 6px;border-bottom:1px solid;font-size:.6rem}#section{min-width:1120px;height:72vh}.controls span{display:none}footer{font-size:.54rem;gap:16px}}
+    @media(prefers-reduced-motion:reduce){.loose-part{transition:none}.trace.new{animation:none}}
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <div><h1 class="title">HOW <span class="slash">/</span> AGAIN</h1><p class="route-label">METHOD CITY — OPEN SYSTEM No. 01</p></div>
-      <div class="top-meta"><span class="live">system live</span><span id="cycleLabel">cycle 001</span><button id="pause" type="button" aria-pressed="false">Pause</button></div>
-    </header>
-    <main id="mapWrap" aria-label="Interactive methodology city map">
-      <svg id="city" viewBox="0 0 1120 650" role="img" aria-labelledby="mapTitle mapDesc">
-        <title id="mapTitle">A looping methodology represented as a miniature city</title>
-        <desc id="mapDesc">Nine tiny people travel between HOW, LAB, STREETS, PLAY, CHANGE, and AGAIN, creating and mutating text modules.</desc>
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#121212"/></marker>
-          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#121212" stroke-width=".7"/></pattern>
-        </defs>
+<div class="sheet">
+  <header><div><h1>HOW <span class="slash">/</span> AGAIN</h1><div class="sub">OPEN STRUCTURE — SECTION STUDY 01 / ALWAYS UNDER REVISION</div></div><div class="controls"><span id="state">inhabited / cycle 001</span><button id="pause" type="button" aria-pressed="false">pause movement</button></div></header>
+  <main class="viewport" id="viewport" aria-label="Interactive architectural section of a living methodology">
+    <svg id="section" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+      <title id="title">HOW / AGAIN open megastructure</title><desc id="desc">A rough architectural section of towers, stairs, bridges, platforms and workshops inhabited by twelve moving people.</desc>
+      <defs><filter id="rough" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.05" xChannelSelector="R" yChannelSelector="G"/></filter><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(18)"><path d="M0 0V7" stroke="#191817" stroke-width=".55" opacity=".55"/></pattern><pattern id="cross" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 0l10 10M10 0L0 10" stroke="#191817" stroke-width=".45" opacity=".4"/></pattern></defs>
 
-        <path id="mainRoute" class="route" marker-end="url(#arrow)" d="M105 185 C150 92 255 92 318 160 S440 300 535 325 S675 215 760 180 S920 130 997 220 S1010 430 890 490 S670 525 555 520 S350 545 225 480 S64 350 105 185"/>
-        <path class="route secondary" d="M180 300 C300 230 380 430 510 375 S700 295 820 365 S915 445 1010 370"/>
-        <path class="route secondary" d="M280 105 C380 35 570 80 640 140 S760 300 930 290"/>
+      <g class="ink ghost rough"><path d="M34 674L168 128 390 200 632 104 854 178 1082 82 1358 164"/><path d="M49 690C215 611 330 662 470 608S752 664 946 604s299 18 406-64"/><path d="M90 532L520 522 784 454 1090 472 1324 384"/><path d="M142 151L1274 154M78 315L1320 302M190 588L1248 575"/></g>
+      <g opacity=".18" fill="url(#cross)"><path d="M80 187h130v471H80zM272 330h284v302H272zM559 292h326v339H559zM904 203h211v423H904zM1142 273h170v390h-170z"/></g>
 
-        <g class="zone" data-zone="HOW" tabindex="0" role="button" aria-label="HOW: start a method, rule, or idea" transform="translate(42 88)">
-          <rect class="plate" width="190" height="122"/><text class="zone-index" x="12" y="18">01 / ENTRY</text><text class="zone-title" x="12" y="47">HOW</text>
-          <path class="detail" d="M12 62H178M12 76H90M112 76H178M12 90H62M72 90H154M12 106H178"/><circle cx="166" cy="89" r="8" fill="none" stroke="#ed5a3d"/>
-          <text class="micro" x="112" y="73">RULE / IDEA</text>
-        </g>
+      <g class="ink rough"><path class="heavy" d="M34 114L1335 118M48 130L1288 133"/><path class="fine" d="M48 114l31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16 31-16 31 16"/><path class="medium" d="M176 105v39M633 99v50M1056 99v51M1280 104v44"/><path class="fine" d="M164 96h24m-20 0-7 9m23-9 7 9M621 90h24m-20 0-7 9m23-9 7 9M1044 90h24m-20 0-7 9m23-9 7 9"/><path class="medium" d="M995 133v112M987 244h16l-3 16h-10z"/><path class="fine dash" d="M1000 261v45"/></g>
+      <text class="note" x="44" y="101">temporary roof / moving gantry / nothing fixed</text>
 
-        <g class="zone" data-zone="LAB" tabindex="0" role="button" aria-label="LAB: experiment, test, and prototype" transform="translate(302 70)">
-          <path class="plate" d="M0 0H224V150H176V178H0Z"/><text class="zone-index" x="12" y="18">02 / TEST YARD</text><text class="zone-title" x="12" y="47">LAB</text>
-          <path class="detail" d="M14 70h48v38H14zm66 0h48v38H80zm66 0h44v38h-44M20 125h170M28 125v28m28-28v28m28-28v28m28-28v28m28-28v28m28-28v28"/>
-          <text class="micro" x="16" y="66">PROTOTYPE BAYS</text><g id="labModules"></g>
-        </g>
+      <g id="howStructure" class="ink rough"><path class="heavy" d="M62 666V174M205 666V158M62 184h143M62 282h143M62 394h143M62 515h143M62 646h143"/><path class="fine" d="M62 184l143 98M205 184L62 282M62 282l143 112M205 282L62 394M62 394l143 121M205 394L62 515M62 515l143 131M205 515L62 646"/><path class="medium" d="M87 646V230h20v416M87 250h20M87 273h20M87 296h20M87 319h20M87 342h20M87 365h20M87 388h20M87 411h20M87 434h20M87 457h20M87 480h20M87 503h20M87 526h20M87 549h20M87 572h20M87 595h20"/><path class="heavy" d="M15 666h211M15 672h211M18 666l44-47M108 515l97-68M107 394l98-55"/><path class="fine blue" d="M118 333c24-12 43-9 71-3m-68 6c21-16 47-7 71-11"/><path class="medium" d="M117 221h73v45h-73zM128 232h22v15h-22m31-15h20v15h-20"/></g>
+      <text class="zone-name" x="112" y="205" transform="rotate(-1 112 205)">HOW</text><text class="zone-sub" x="120" y="219">ENTRY TOWER / START PLATFORM</text><text class="pencil" x="23" y="603" transform="rotate(-6 23 603)">first question enters here</text>
 
-        <g class="zone" data-zone="STREETS" tabindex="0" role="button" aria-label="STREETS: circulation, encounters, and exchange" transform="translate(430 280)">
-          <path class="plate" d="M0 0H252V36H306V128H252V164H0V128H-52V36H0Z"/><text class="zone-index" x="12" y="18">03 / COMMON GROUND</text><text class="zone-title" x="12" y="70">STREETS</text>
-          <path class="detail" d="M0 36h252M0 128h252M54 36v92m144-92v92M-52 82h358M82 50l88 64m0-64-88 64"/>
-          <text class="micro" x="88" y="151">MEET / PASS / EXCHANGE</text><circle id="streetRing" class="event-ring" cx="126" cy="82" r="4"/>
-        </g>
+      <g id="labStructure" class="ink rough"><path class="heavy" d="M232 644V316M532 644V303M232 334h300M232 470h300M232 589h300"/><path class="fine" d="M249 334v310M310 334v310M375 334v310M445 334v310M510 334v310"/><path class="medium" d="M232 316l52-57h199l49 44M252 316l45-41h176l39 28"/><path class="fine" d="M284 259l39 57 40-57 40 57 40-57 40 57"/><path class="medium" d="M278 360v61h74v-61M378 360v84h102v-84"/><path class="fine dash" d="M289 334v26m52-26v26m50-26v26m76-26v26"/><path class="medium" d="M260 515h89v49h-89zM397 507h96v57h-96z"/><path class="fine" d="M260 525l89 31m-89 0 89-31M397 517l96 39m-96 0 96-39"/><path class="red fine" d="M302 452c13-11 24-12 38 0m66 10c18-14 41-14 61 1"/><g id="labGrowth"/></g>
+      <text class="zone-name" x="273" y="303" transform="rotate(.8 273 303)">LAB</text><text class="zone-sub" x="373" y="300">PROTOTYPE / TEST / BREAK / KEEP</text><text class="pencil" x="250" y="582" transform="rotate(-2 250 582)">bay 03 moved again</text>
 
-        <g class="zone" data-zone="PLAY" tabindex="0" role="button" aria-label="PLAY: recombine, misuse, and reorder" transform="translate(738 62)">
-          <path class="plate" d="M0 28L34 0H235V166H0Z"/><text class="zone-index" x="14" y="47">04 / OPEN USE</text><text class="zone-title" x="14" y="78">PLAY</text>
-          <g id="playModules">
-            <g class="module" data-slot="0" transform="translate(18 96)"><rect width="52" height="28"/><text x="6" y="17">RE-MIX</text></g>
-            <g class="module" data-slot="1" transform="translate(82 96)"><rect width="52" height="28"/><text x="6" y="17">MIS-USE</text></g>
-            <g class="module" data-slot="2" transform="translate(146 96)"><rect width="68" height="28"/><text x="6" y="17">RE-ORDER</text></g>
-          </g>
-          <path class="detail" d="M16 138h198M32 138v18m32-18v18m32-18v18m32-18v18m32-18v18m32-18v18"/>
-        </g>
+      <g id="streetStructure" class="ink rough"><path class="heavy" d="M523 646h430M542 547h375M516 454h430M548 360h345M575 268h280"/><path class="fine" d="M548 360v286M893 360v286M575 268v92M855 268v92"/><path class="medium" d="M535 547l84-93M621 454l77 93M698 547l79-93M779 454l81 93M860 547l72-93"/><path class="medium" d="M565 360l76-92M641 268l76 92M717 360l76-92M793 268l77 92"/><path class="fine" d="M545 529h18v-18h18v-18h18v-18h18v-18M846 435h18v-18h18v-18h18v-18h18v-18"/><path class="medium" d="M592 628v-65h48v65M818 628v-64h53v64"/><path class="fine" d="M524 638c90-5 161-2 235 2 72 4 125 3 193-3"/></g>
+      <text class="zone-name" x="645" y="434" transform="rotate(-.6 645 434)">STREETS</text><text class="zone-sub" x="648" y="449">MEET / PASS / CROSS / WAIT</text><text class="pencil" x="682" y="518" transform="rotate(4 682 518)">public floor — do not clear</text>
 
-        <g class="zone" data-zone="CHANGE" tabindex="0" role="button" aria-label="CHANGE: mutate, refine, and modify locally" transform="translate(820 310)">
-          <path class="plate" d="M0 0H242V160H200V190H0Z"/><text class="zone-index" x="12" y="18">05 / REVISION WORKS</text><text class="zone-title" x="12" y="48">CHANGE</text>
-          <g id="changeGrid" class="detail"><path d="M14 70h210v72H14zM56 70v72m42-72v72m42-72v72m42-72v72M14 106h210"/></g>
-          <rect id="changeCell" x="99" y="107" width="40" height="34" fill="url(#hatch)" stroke="#121212"/>
-          <text class="micro" x="14" y="156">LOCAL EDIT / KEEP TRACE</text>
-        </g>
+      <g id="playStructure" class="ink rough"><path class="heavy" d="M870 640V217M1115 640V189M868 234h247M868 378h247M868 507h247"/><path class="fine" d="M870 234l245 144M1115 234L870 378M870 378l245 129M1115 378L870 507"/><path class="medium" d="M897 347h194M904 331h32v16m-32 0v20m73-50h47v30m-47 0v20m76-57h35v37m-35 0v20"/><path class="fine dash" d="M920 234v97m80-97v83m70-83v76"/><g id="playParts"><g class="loose-part" data-i="0" transform="translate(900 283)"><path class="medium fill-paper" d="M0 0h48v36H0z"/><text class="note" x="6" y="22">RE-MIX</text></g><g class="loose-part" data-i="1" transform="translate(979 274)"><path class="medium fill-paper" d="M0 0h41v45H0z"/><text class="note" x="5" y="25">MIS-USE</text></g><g class="loose-part" data-i="2" transform="translate(1048 290)"><path class="medium fill-paper" d="M0 0h46v29H0z"/><text class="note" x="5" y="18">MOVE</text></g></g></g>
+      <text class="zone-name" x="916" y="216" transform="rotate(-2 916 216)">PLAY</text><text class="zone-sub" x="982" y="214">OPEN USE PLATFORM</text><text class="pencil" x="943" y="398" transform="rotate(-4 943 398)">no approved arrangement</text>
 
-        <g class="zone" data-zone="AGAIN" tabindex="0" role="button" aria-label="AGAIN: loop and recirculate" transform="translate(110 408)">
-          <path class="plate" d="M0 0H218V160H32L0 128Z"/><text class="zone-index" x="12" y="18">06 / RETURN LOOP</text><text class="zone-title" x="12" y="52">AGAIN</text>
-          <path class="detail" marker-end="url(#arrow)" d="M28 102c0-26 22-42 52-42 40 0 58 24 58 48s-20 35-38 35c-22 0-34-12-34-28s14-24 29-24"/>
-          <text class="micro" x="122" y="116">RE-ENTER</text><text id="againCount" class="zone-note" x="150" y="144">000 LOOPS</text>
-        </g>
+      <g id="changeStructure" class="ink rough"><path class="heavy" d="M1134 667V300M1306 667V278M1134 316h172M1134 425h172M1134 531h172M1134 645h172"/><path class="fine" d="M1134 316l172 109M1306 316l-172 109M1134 425l172 106M1306 425l-172 106M1134 531l172 114M1306 531l-172 114"/><path class="medium" d="M1171 394h96v-54h-96zM1157 503h67v-51h-67zM1241 503h48v-51h-48zM1182 621h93v-61h-93z"/><path class="fine" d="M1109 301v366M1088 301v366M1088 324h21M1088 351h21M1088 378h21M1088 405h21M1088 432h21M1088 459h21M1088 486h21M1088 513h21M1088 540h21M1088 567h21M1088 594h21M1088 621h21M1088 648h21"/><path id="patch" d="M1180 454h44v49h-44z" fill="url(#hatch)" stroke="#a54435" stroke-width="1"/><g id="changeMarks"/></g>
+      <text class="zone-name" x="1163" y="288" transform="rotate(1.2 1163 288)">CHANGE</text><text class="zone-sub" x="1160" y="530">EDIT / SPLICE / KEEP TRACE</text><text class="pencil" x="1210" y="418" transform="rotate(8 1210 418)">repair while occupied</text>
 
-        <g class="structure" opacity=".8">
-          <path d="M14 32H1098M14 618H1098M26 24v602m1068-602v602"/>
-          <path d="M26 48h86l14-16 14 16h108l14-16 14 16h108l14-16 14 16h108l14-16 14 16h108l14-16 14 16h108l14-16 14 16h108"/>
-        </g>
-        <g class="micro" fill="#121212"><text x="38" y="611">OPEN ACCESS / NO FINAL STATE</text><text x="894" y="611">PROCESS REMAINS VISIBLE</text></g>
-        <g id="npcs"></g>
-      </svg>
-      <aside class="event-log" aria-live="polite"><h2>FIELD NOTES / LIVE</h2><ol id="events"><li><time>00:00</time><span>system opened</span></li></ol></aside>
-      <div id="tooltip" role="tooltip"></div>
-    </main>
-    <footer>
-      <p class="instruction">Watch the residents carry ideas through the city. Hover a district to read its role; click or press Enter to make a local intervention.</p>
-      <div class="counter">PROTOTYPES <span id="count">000</span><br>THE OUTCOME KEEPS ITS HISTORY</div>
-    </footer>
-  </div>
-  <script>
-    (() => {
-      const ns = 'http://www.w3.org/2000/svg';
-      const route = document.querySelector('#mainRoute');
-      const npcLayer = document.querySelector('#npcs');
-      const labLayer = document.querySelector('#labModules');
-      const events = document.querySelector('#events');
-      const countEl = document.querySelector('#count');
-      const cycleEl = document.querySelector('#cycleLabel');
-      const againEl = document.querySelector('#againCount');
-      const pause = document.querySelector('#pause');
-      const tooltip = document.querySelector('#tooltip');
-      const wrap = document.querySelector('#mapWrap');
-      const total = route.getTotalLength();
-      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let running = !reduced, last = performance.now(), prototypes = 0, loops = 0, mutations = 0, startTime = performance.now();
-      const descriptions = {
-        HOW:'A method enters as a proposal — useful, unfinished, and open to others.',
-        LAB:'Tests turn proposals into small, portable text modules.',
-        STREETS:'Residents cross paths; modules are exchanged and altered in transit.',
-        PLAY:'Parts are recombined, misused, and reordered without a fixed winner.',
-        CHANGE:'A local edit modifies the system while leaving its previous structure legible.',
-        AGAIN:'Results recirculate as new inputs. The loop never returns exactly the same.'
-      };
-      const phases = [
-        {at:.09, zone:'HOW'}, {at:.24, zone:'LAB'}, {at:.43, zone:'STREETS'},
-        {at:.60, zone:'PLAY'}, {at:.76, zone:'CHANGE'}, {at:.93, zone:'AGAIN'}
-      ];
-      const people = Array.from({length:9}, (_,i) => ({ id:i+1, t:(i/9+.015)%1, speed:.00042+(i%4)*.000055, phase:-1, lap:0, el:null }));
+      <g id="againStructure" class="ink rough"><path class="heavy" d="M1318 665C1229 716 1087 724 944 705S661 681 522 711 237 735 86 674"/><path class="medium" d="M1312 650C1217 700 1081 707 946 691S662 665 519 697 235 720 94 660"/><path class="fine" d="M1274 674l15 22m-72-1 8 22m-76-13 4 21m-80-17 1 21m-80-28-3 21m-79-25-5 21m-80-29-7 22m-78-24-11 22m-76-17-15 21m-75-7-18 20m-72 0-21 17m-69 2-22 13m-68 4-22 9m-66 1-20 5"/><path class="fine dash" d="M246 681c-30-48-3-89 45-88 54 1 77 45 54 83-17 28-59 24-64-7-3-19 17-34 34-24"/></g>
+      <text class="zone-name" x="242" y="656" transform="rotate(3 242 656)">AGAIN</text><text class="zone-sub" x="350" y="670">RETURN LOOP / RE-ENTER BELOW</text><text class="pencil" x="556" y="729" transform="rotate(-1 556 729)">same material, different system</text>
 
-      function svgEl(tag, attrs={}) { const el=document.createElementNS(ns,tag); Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v)); return el; }
-      people.forEach(p => {
-        const g=svgEl('g',{class:'npc','aria-hidden':'true'});
-        g.innerHTML='<circle class="head" cy="-7" r="3.2"/><path class="body" d="M0-3v10M0 1l-5 4M0 1l5 4M0 7l-4 7M0 7l4 7"/><text class="tag" x="7" y="-5">'+String(p.id).padStart(2,'0')+'</text>';
-        npcLayer.append(g); p.el=g;
-      });
-      function stamp(text) {
-        const sec=Math.floor((performance.now()-startTime)/1000), time=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
-        const li=document.createElement('li'); li.innerHTML='<time>'+time+'</time><span>'+text+'</span>'; events.prepend(li); while(events.children.length>5) events.lastElementChild.remove();
-      }
-      function labEvent(actor='visitor') {
-        prototypes++; countEl.textContent=String(prototypes).padStart(3,'0');
-        const g=svgEl('g',{class:'module',transform:`translate(${18+(prototypes%5)*37} ${116+(prototypes%2)*18})`});
-        g.innerHTML=`<rect width="31" height="14"/><text x="4" y="10">M-${String(prototypes).padStart(2,'0')}</text>`; labLayer.append(g); while(labLayer.children.length>8) labLayer.firstElementChild.remove();
-        stamp(`${actor} made module M-${String(prototypes).padStart(2,'0')}`);
-      }
-      function streetEvent(actor='two residents') {
-        const ring=document.querySelector('#streetRing'); ring.classList.remove('fire'); void ring.getBBox(); ring.classList.add('fire');
-        stamp(`${actor} exchanged a method`);
-      }
-      function playEvent(actor='visitor') {
-        const modules=[...document.querySelectorAll('#playModules .module')];
-        const slots=['translate(18 96)','translate(82 96)','translate(146 96)'];
-        modules.forEach((m,i)=>m.setAttribute('transform',slots[(i+1+mutations)%3]+` rotate(${(mutations%3-1)*3})`));
-        stamp(`${actor} reordered the play yard`);
-      }
-      function changeEvent(actor='visitor') {
-        mutations++; const cell=document.querySelector('#changeCell');
-        const xs=[15,57,99,141,183], ys=[71,107]; cell.setAttribute('x',xs[mutations%xs.length]); cell.setAttribute('y',ys[mutations%2]);
-        cell.setAttribute('fill',mutations%2?'#ed5a3d':'url(#hatch)'); stamp(`${actor} kept mutation ${String(mutations).padStart(2,'0')}`);
-      }
-      function againEvent(actor='visitor') { loops++; againEl.textContent=String(loops).padStart(3,'0')+' LOOPS'; cycleEl.textContent='cycle '+String(Math.floor(loops/9)+1).padStart(3,'0'); stamp(`${actor} returned carrying change`); }
-      const actions={HOW:(a)=>stamp(`${a} proposed a rule`),LAB:labEvent,STREETS:streetEvent,PLAY:playEvent,CHANGE:changeEvent,AGAIN:againEvent};
-      function trigger(zone, actor) { document.querySelector(`[data-zone="${zone}"]`).classList.add('active'); setTimeout(()=>document.querySelector(`[data-zone="${zone}"]`).classList.remove('active'),500); actions[zone](actor); }
-      function animate(now) {
-        const dt=Math.min(48,now-last); last=now;
-        if(running) people.forEach(p => {
-          const old=p.t; p.t=(p.t+p.speed*dt/16)%1;
-          phases.forEach((phase,index)=>{ if((old<phase.at&&p.t>=phase.at)||(old>p.t&&phase.at<.12)){ if(p.phase!==index){ p.phase=index; trigger(phase.zone,`resident ${String(p.id).padStart(2,'0')}`); } } });
-          const point=route.getPointAtLength(p.t*total), next=route.getPointAtLength(((p.t+.002)%1)*total); const angle=Math.atan2(next.y-point.y,next.x-point.x)*180/Math.PI;
-          p.el.setAttribute('transform',`translate(${point.x} ${point.y}) rotate(${angle})`);
-        });
-        requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-      pause.textContent=running?'Pause':'Run'; pause.setAttribute('aria-pressed',String(!running));
-      pause.addEventListener('click',()=>{ running=!running; pause.textContent=running?'Pause':'Run'; pause.setAttribute('aria-pressed',String(!running)); stamp(running?'system resumed':'system paused'); });
-      document.querySelectorAll('.zone').forEach(zone => {
-        const name=zone.dataset.zone;
-        const show=e=>{ tooltip.textContent=descriptions[name]; tooltip.classList.add('show'); const rect=wrap.getBoundingClientRect(); const x=('clientX'in e&&e.clientX?e.clientX-rect.left:20), y=('clientY'in e&&e.clientY?e.clientY-rect.top:55); tooltip.style.left=Math.min(x+12,rect.width-245)+'px'; tooltip.style.top=Math.min(y+12,rect.height-80)+'px'; };
-        zone.addEventListener('pointerenter',show); zone.addEventListener('pointermove',show); zone.addEventListener('pointerleave',()=>tooltip.classList.remove('show'));
-        zone.addEventListener('focus',show); zone.addEventListener('blur',()=>tooltip.classList.remove('show'));
-        zone.addEventListener('click',()=>trigger(name,'you'));
-        zone.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();trigger(name,'you');} });
-      });
-      if(reduced) stamp('motion paused by system preference');
-    })();
-  </script>
-</body>
-</html>
+      <g class="ink rough"><path class="fine" d="M352 130v93m-10 0h20v29h-20zM748 130v70m-17 0h34v34h-34zM1227 131v65m-23 0h46v39h-46z"/><path class="medium" d="M218 174c62 42 112 16 162 51M531 303c48-22 76-10 114-35M854 269c43-36 76-42 116-35M1115 190c45 12 70 1 99-18"/><path class="fine scratch" d="M221 180c60 39 110 15 158 49M535 310c46-21 75-9 112-34M858 275c41-34 72-39 111-33"/></g>
+      <g class="ink rough"><path class="heavy" d="M22 668L1368 669M18 676c265-4 424 5 673-1s469 3 682-2"/><path class="fine" d="M45 681v28h112v-28m16 0v28h128v-28m20 0v28h118v-28m17 0v28h146v-28m16 0v28h123v-28m18 0v28h137v-28m18 0v28h125v-28m20 0v28h142v-28"/><path class="fine" d="M70 692h63m59 0h84m71 0h65m72 0h91m50 0h69m76 0h78m74 0h64m69 0h83"/></g>
+      <text class="note" x="37" y="724">OPEN ACCESS</text><text class="note" x="188" y="724">NO FINAL STATE</text><text class="note" x="1117" y="724">PROCESS REMAINS VISIBLE</text>
+
+      <g fill="none" stroke="none"><path id="route0" d="M20 657L62 619L107 515L205 447L232 470L532 470L565 360L855 360L917 454L1115 507L1134 531L1306 531"/><path id="route1" d="M90 646L90 230L190 221L205 282L310 334L310 470L532 470"/><path id="route2" d="M245 589L349 589L397 564L493 564L532 547L698 547L779 454L946 454"/><path id="route3" d="M548 360L641 268L793 268L893 360L917 378L1115 378L1134 425L1306 425"/><path id="route4" d="M870 347L904 347L904 367L936 347L977 347L977 367L1024 347L1053 347L1053 367L1094 347"/><path id="route5" d="M1088 648L1088 324L1134 316L1171 340L1267 340L1306 316"/><path id="route6" d="M1312 650C1217 700 1081 707 946 691S662 665 519 697 235 720 94 660"/><path id="route7" d="M523 646L592 628L592 563L640 563L698 547L779 454L846 435L918 363"/></g>
+      <g id="traces"/>
+      <path class="hotspot" data-zone="HOW" tabindex="0" role="button" aria-label="Intervene in HOW entry tower" d="M36 150L220 145 221 664 32 665Z"/><path class="hotspot" data-zone="LAB" tabindex="0" role="button" aria-label="Add a test in LAB" d="M221 247L541 247 545 650 218 650Z"/><path class="hotspot" data-zone="STREETS" tabindex="0" role="button" aria-label="Mark an encounter in STREETS" d="M516 249L949 250 960 654 514 655Z"/><path class="hotspot" data-zone="PLAY" tabindex="0" role="button" aria-label="Rearrange PLAY platform" d="M860 178L1122 177 1122 518 858 517Z"/><path class="hotspot" data-zone="CHANGE" tabindex="0" role="button" aria-label="Patch CHANGE repair tower" d="M1077 263L1321 262 1321 670 1077 670Z"/><path class="hotspot" data-zone="AGAIN" tabindex="0" role="button" aria-label="Retrace AGAIN return loop" d="M73 650C238 717 375 711 515 686S804 665 949 682 1209 690 1330 635L1350 691C1216 744 1087 750 938 727S659 718 526 739 229 754 62 687Z"/>
+      <g id="npcs"/>
+    </svg><div id="tooltip" role="tooltip"></div>
+  </main>
+  <footer><span>walk / stop / look / meet / test / alter / return</span><span id="activity">12 occupants / structure open</span></footer>
+</div>
+<script>
+(()=>{const NS='http://www.w3.org/2000/svg',reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const layer=document.querySelector('#npcs'),traces=document.querySelector('#traces'),tip=document.querySelector('#tooltip'),viewport=document.querySelector('#viewport'),pause=document.querySelector('#pause'),state=document.querySelector('#state'),activity=document.querySelector('#activity');let running=!reduced,last=performance.now(),cycles=1,edits=0;const roles=[['Mara','tests unfinished rules','HOW + LAB'],['Ivo','carries prototypes between bays','LAB + STREETS'],['Nia','waits where routes cross','STREETS'],['Sol','misuses movable parts','PLAY + STREETS'],['Aya','keeps old marks visible','CHANGE'],['Teo','returns altered material','AGAIN + HOW'],['Luz','checks temporary joints','LAB + CHANGE'],['Ren','opens paths for others','STREETS + PLAY'],['Uma','observes before changing','HOW + STREETS'],['Bo','rebuilds while occupied','CHANGE + PLAY'],['Eli','passes methods person to person','STREETS'],['Noa','loops without repeating','AGAIN + LAB']];const paths=[0,1,2,3,4,5,6,7,0,3,2,6].map(i=>document.querySelector('#route'+i));function el(tag,attrs={}){const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));return n}const people=roles.map((role,i)=>{const g=el('g',{class:'npc',tabindex:'0',role:'img','aria-label':`${role[0]}: ${role[1]}`});g.innerHTML='<g class="person"><circle cx="0" cy="-8" r="3.2"/><path d="M0-4v10M0-1l-5 5M0-1l5 5M0 6l-4 8M0 6l4 8" fill="none"/></g>';layer.append(g);return{g,role,path:paths[i],p:(i*.137)%1,v:.00018+(i%4)*.000025,dir:i%3===0?-1:1,still:0}});function personTip(p,e){tip.innerHTML=`<b>${p.role[0]}</b><br>${p.role[1]}<br><span style="color:#d78673">related: ${p.role[2]}</span>`;tip.classList.add('show');const r=viewport.getBoundingClientRect(),x=(e.clientX||r.left+40)-r.left,y=(e.clientY||r.top+40)-r.top;tip.style.left=Math.min(x+10,r.width-255)+'px';tip.style.top=Math.min(y+10,r.height-92)+'px'}people.forEach(p=>{p.g.addEventListener('pointerenter',e=>{p.still=1;personTip(p,e)});p.g.addEventListener('pointermove',e=>personTip(p,e));p.g.addEventListener('pointerleave',()=>{p.still=0;tip.classList.remove('show')});p.g.addEventListener('focus',e=>{p.still=1;personTip(p,e)});p.g.addEventListener('blur',()=>{p.still=0;tip.classList.remove('show')})});function tick(now){const dt=Math.min(now-last,48);last=now;if(running)people.forEach((p,i)=>{if(!p.still){p.p+=p.v*p.dir*dt/16;if(p.p>1||p.p<0){p.dir*=-1;p.p=Math.max(0,Math.min(1,p.p));if(i===5||i===11){cycles++;state.textContent='inhabited / cycle '+String(cycles).padStart(3,'0')}}}const L=p.path.getTotalLength(),a=p.path.getPointAtLength(p.p*L),b=p.path.getPointAtLength(Math.min(L,p.p*L+1));const ang=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;p.g.setAttribute('transform',`translate(${a.x} ${a.y-2}) rotate(${p.dir<0?ang+180:ang})`)});requestAnimationFrame(tick)}requestAnimationFrame(tick);function trace(d){const p=el('path',{class:'trace new',d});traces.append(p);while(traces.children.length>20)traces.firstElementChild.remove()}const actions={HOW(){trace(`M${110+edits%4*7} 315c22-16 51-18 84-6M${115+edits%3*9} 321c20-12 47-14 76-7`)},LAB(){const g=document.querySelector('#labGrowth'),x=257+(edits%5)*51,y=480-(edits%3)*18,p=el('path',{class:'trace new',d:`M${x} ${y}v-28h35v28m-29-22l23 0m-12-12v12`});g.append(p);while(g.children.length>9)g.firstElementChild.remove()},STREETS(){trace(`M${610+edits%5*48} ${454-edits%2*94}q14-18 28 0t28 0`)},PLAY(){const pos=[[900,283],[979,274],[1048,290]];document.querySelectorAll('.loose-part').forEach((p,i)=>{const q=pos[(i+edits+1)%3];p.setAttribute('transform',`translate(${q[0]} ${q[1]}) rotate(${(i-edits%3)*2})`)})},CHANGE(){const p=document.querySelector('#patch'),xs=[1148,1180,1225,1253],ys=[344,454,560];p.setAttribute('x',xs[edits%4]);p.setAttribute('y',ys[edits%3]);trace(`M${1138+edits%4*39} ${438+edits%3*52}l18-12 22 18 15-9`)},AGAIN(){trace(`M${1290-edits%5*20} ${680+edits%2*8}C1100 ${725+edits%3*4} 800 670 520 710S220 730 95 675`)}};document.querySelectorAll('.hotspot').forEach(h=>{const run=()=>{edits++;actions[h.dataset.zone]();activity.textContent=`12 occupants / ${String(edits).padStart(2,'0')} live alterations`};h.addEventListener('click',run);h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run()}})});pause.textContent=running?'pause movement':'resume movement';pause.setAttribute('aria-pressed',String(!running));pause.addEventListener('click',()=>{running=!running;pause.textContent=running?'pause movement':'resume movement';pause.setAttribute('aria-pressed',String(!running))})})();
+</script>
+</body></html>
